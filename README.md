@@ -7,3 +7,22 @@ report 是一个开源的访问层框架，基于java平台，依赖于spring，
     d)report请求通道采用职责链的模式，扩展性强，完全可控
     e)支持多种数据请求方式并可扩展，默认可选json，xml方式
   
+  report使用方式：
+    a)maven项目加入report依赖，普通项目则导入jar包
+    b)加载spring文件ankang-report.xml
+    c)继承ReportStart类，
+        @Component//通过spring注入
+        public class BusinessReportConfig extends ReportStart {
+        	@Override
+        	protected void reginsterReport() {
+        		//注册需要被请求的控制层类
+        		reginster(OrderHandler.class);
+        	}
+        	@Override
+        	protected void reginsterResolver() {
+        		// 注册自定义的解析器 没有自定义可忽略
+        		reginster(OrderHandler.class);
+        	}
+        }
+  report可配置项
+    
