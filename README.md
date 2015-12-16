@@ -24,8 +24,12 @@ report 是一个开源的访问层框架，基于java平台，依赖于spring，
         		reginster(OrderHandler.class);
         	}
         }
-      d)启动项目，访问localhost:8080/项目名/report/test
-      
+        
+  report注解解释
+    a)@Alias:标注在需要被请求的类，value属性值为请求时使用的服务名，没有标注的report将不予以处理
+    b)@HTTP:标注在需要被请求的方法上，value属性值为请求时的方法名，supportMethod属性值为请求类型，默认支持get和post两种，兼容RquestMapping
+    c)@ReportParam:标注在需要注入方法的参数上，继承至ReportRequest的参数不需要标注，HttpServletRequest不需要标注,兼容RequestParam
+    d)@Activate:标注在自定义的过滤器上，order属性值为排序值，取值范围int，如有重复则顺延
   report可配置项
     a)自定义配置文件需采用指定资源地址：report/report-config.properties
     b)REPORT_SWITCH:true 则开启，反之关闭 默认开启
@@ -40,9 +44,4 @@ report 是一个开源的访问层框架，基于java平台，依赖于spring，
     j)RESPONSE_MESSAGE:自定义返回体请求消息字段名
     k)RESPONSE_RESULT:自定义返回体数据对象字段名
     
-  report注解解释
-    a)@Alias:标注在需要被请求的类，value属性值为请求时使用的服务名，没有标注的report将不予以处理
-    b)@HTTP:标注在需要被请求的方法上，value属性值为请求时的方法名，supportMethod属性值为请求类型，默认支持get和post两种，兼容RquestMapping
-    c)@ReportParam:标注在需要注入方法的参数上，继承至ReportRequest的参数体不需要标注，HttpServletRequest不需要标注,兼容RequestParam
-    d)@Activate:标注在自定义的过滤器上，order属性值为排序值，取值范围int，如有重复则顺延
     
