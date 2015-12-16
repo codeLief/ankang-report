@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss}:%5p %c{1}:%L - %m%n" />
+        </layout>
+    </appender>
+    
+   <appender name="dailyRollingFileAppender" class="org.apache.log4j.DailyRollingFileAppender">    
+        <param name="File" value="/data/report_log/ankang_report.log" />     
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />     
+         <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss}:%5p %c{1}:%L - %m%n" />
+        </layout>  
+    </appender>    
+   
+
+
+
+    <!-- Spring -->
+    <logger name="org.springframework" additivity="true">
+        <level value="INFO"/>
+        <appender-ref ref="consoleAppender"/>
+    </logger>
+    <root>
+        <level value="DEBUG"/>
+        <appender-ref ref="dailyRollingFileAppender" />
+    </root>
+
+</log4j:configuration> 
