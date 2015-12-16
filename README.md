@@ -24,7 +24,7 @@ report 是一个开源的访问层框架，基于java平台，依赖于spring，
         		reginster(OrderHandler.class);
         	}
         }
-      d)启动项目，访问localhost:8080/项目名/report/test
+    d)启动项目，访问localhost:8080/项目名/report/test
       
   report可配置项
     a)自定义配置文件需采用指定资源地址：report/report-config.properties
