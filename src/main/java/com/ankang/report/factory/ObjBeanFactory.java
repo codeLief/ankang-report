@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
 
 import com.ankang.report.exception.ReportException;
 import com.ankang.report.main.ReportCabinet;
-import com.ankang.report.resolver.util.BeanUtil;
+import com.ankang.report.util.BeanUtil;
 
 
 

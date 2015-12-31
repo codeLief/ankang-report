@@ -330,15 +330,15 @@ public final class MonitorRegister extends AbstractReportAliasPool implements
 		MonitorView monitorView = monitor.getMonitorView();
 		if(null == monitorView){
 			monitorView = new MonitorView();
+			monitorView.setModul(monitor.getModul());
+			monitorView.setMethod(monitor.getMethod());
 			monitor.setMonitorView(monitorView);
 		}
-		
-		monitorView.setModul(monitor.getModul());
-		monitorView.setMethod(monitor.getMethod());
 		
 		monitorView.setSuccess(monitor.getSuccess());
 		monitorView.setFail(monitor.getFail());
 		
+		//计算X轴
 		Long size = monitorView.getNextKeyCu() > monitorView.getNextKeyAvg()?
 				monitorView.getNextKeyCu():monitorView.getNextKeyAvg();
 		if(size >= monitorView.QUEUE_SIZE){

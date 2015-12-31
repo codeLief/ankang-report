@@ -33,7 +33,6 @@ import com.ankang.report.main.handler.ReportHandler;
 import com.ankang.report.model.ReportRequest;
 import com.ankang.report.model.ReportResponse;
 import com.ankang.report.resolver.ReportResolver;
-import com.smart.validate.SmartValidate;
 
 public class ReportRequestHandler extends ReportCabinet implements
 		ReportHandler,Invoker {
@@ -127,7 +126,6 @@ public class ReportRequestHandler extends ReportCabinet implements
 									.toString().matches("^class.+$"))) {
 
 						invokerParam[i] = invocation.getResolver().in(null, parameterTypes[i]);
-						SmartValidate.validate(invokerParam[i]);
 						continue;
 					} else if(null == para){
 						

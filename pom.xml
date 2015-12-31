@@ -153,13 +153,6 @@
 			<artifactId>commons-collections</artifactId>
 			<version>3.2.1</version>
 		</dependency>
-		<!-- 数据校验 -->
-		<dependency>
-			<groupId>com.smart.validate</groupId>
-			<artifactId>smart-validate</artifactId>
-			<version>1.1-SNAPSHOT</version>
-		</dependency>
-		
   </dependencies>
   
   <build>

@@ -50,10 +50,8 @@ public final class ReportApplicationContext extends AbstractReportAliasPool impl
 	
 	@Override
 	public boolean putPool(String alias, Map aliasPool) {
-		synchronized (ALIASPOOLS) {
-			setMountPool(ALIASPOOLS);
-			return mount(alias, aliasPool);
-		}
+		setMountPool(ALIASPOOLS);
+		return mount(alias, aliasPool);
 	}
 	private static ReportContext rc = null;
 	public static ReportContext getInstance(ReportBeanFactory factory){
@@ -101,11 +99,10 @@ public final class ReportApplicationContext extends AbstractReportAliasPool impl
 			return Boolean.FALSE;
 		}
 		String baneName = getBeanAlias(bean.getClass());
-		synchronized (BEANPOOLS) {
-			setMountPool(BEANPOOLS);
-			mount(baneName, bean);
-			mount(bean.getClass().toString(), bean);
-		}
+		
+		setMountPool(BEANPOOLS);
+		mount(baneName, bean);
+		mount(bean.getClass().toString(), bean);
 		return Boolean.TRUE;
 	}
 	protected String getBeanAlias(Class<?> clazz){
@@ -113,8 +110,8 @@ public final class ReportApplicationContext extends AbstractReportAliasPool impl
 			return "";
 		}
 		String baneName = clazz.getSimpleName();
-		return baneName.replaceFirst(baneName.substring(0, 1), 
-						baneName.substring(0, 1).toLowerCase());
+		return baneName.replace(String.valueOf(baneName.charAt(0)), 
+				String.valueOf(baneName.charAt(0)).toLowerCase());
 	}
 	protected Class<?> getClass(String clazz) throws ClassNotFoundException{
 		if(StringUtils.isNotEmpty(clazz) && clazz.trim().startsWith("class ")){

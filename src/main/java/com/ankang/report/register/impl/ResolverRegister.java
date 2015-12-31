@@ -29,7 +29,7 @@ import com.ankang.report.main.ReportCabinet;
 import com.ankang.report.pool.AbstractReportAliasPool;
 import com.ankang.report.register.ReportRegister;
 import com.ankang.report.resolver.ReportResolver;
-import com.ankang.report.resolver.util.ReportUtil;
+import com.ankang.report.util.ReportUtil;
 
 @SuppressWarnings("all")
 public final class ResolverRegister extends AbstractReportAliasPool implements ReportRegister{
