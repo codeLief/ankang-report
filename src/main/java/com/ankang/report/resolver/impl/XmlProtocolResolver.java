@@ -34,7 +34,7 @@ public class XmlProtocolResolver extends AbstractReportResolver {
 	@Override
 	public <OUT> String out(OUT output) {
 		XStream stream = new XStream();
-		stream.alias("root", output.getClass());
+		stream.alias(XML_DUFALUE_BODY, output.getClass());
 		stream.autodetectAnnotations(true);
 		stream.setMode(XStream.NO_REFERENCES);
 		return stream.toXML(output);
