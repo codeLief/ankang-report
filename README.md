@@ -9,7 +9,7 @@ report 是一个开源的访问层框架，基于java平台，依赖于spring，
   
   report使用方式：
     a)maven项目加入report依赖，普通项目则导入jar包
-    b)引入spring文件 spring/ankang-report.xml
+    b)引入spring文件 spring/ankang-report.xml,web.xml依赖springMVC配置
     c)继承ReportStart类，
         @Component//通过spring注入 可设置为单例
         public class BusinessReportConfig extends ReportStart {
