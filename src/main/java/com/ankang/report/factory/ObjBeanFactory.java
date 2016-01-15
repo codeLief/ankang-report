@@ -41,7 +41,7 @@ public class ObjBeanFactory implements ReportBeanFactory{
 			return null;
 		}
 		Object object = null;
-		object = BeanUtil.getBean(null, clazz);
+		object = BeanUtil.getBean(clazz);
 		if(null != object){
 			return object;
 		}

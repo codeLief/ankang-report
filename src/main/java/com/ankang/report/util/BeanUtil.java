@@ -34,25 +34,18 @@ public class BeanUtil implements ApplicationContextAware{
 		 context = applicationContext;
 	 }
 
-	 public synchronized static Object getBean(String beanName, Class<?> beanCalzz) {
-		 
+	 public synchronized static Object getBean(String beanName) {
 		 try {
-			 Object object = null;
-			 if(StringUtils.isNotEmpty(beanName)){
-				 if((object = context.getBean(beanName)) != null){
-					 return object;
-				 }
-			 }else{
-				 return context.getBean(beanCalzz);
-			 }
-			
-		} catch (BeansException e) {
-			 try {
-				return context.getBean(beanCalzz);
-			} catch (BeansException f) {
+			if(StringUtils.isEmpty(beanName)){
 				return null;
 			}
+			return context.getBean(beanName);
+		} catch (BeansException e) {
+			 return null;
 		}
-		 return null;
+		
+	 }
+	 public synchronized static Object getBean(Class<?> beanCalzz){
+		 return context.getBeansOfType(beanCalzz);
 	 }
 }
