@@ -127,7 +127,7 @@ public final class ReportConfig {
 
 	public static boolean containsKey(String key) {
 		if (null == key) {
-			logger.warn("key is null");
+			logger.error("key is null");
 			return Boolean.FALSE;
 		}
 		return REPORTCONFIG.containsKey(key);

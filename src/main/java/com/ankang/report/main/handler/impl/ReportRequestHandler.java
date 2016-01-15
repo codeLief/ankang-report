@@ -69,7 +69,6 @@ public class ReportRequestHandler extends ReportCabinet implements
 		return startInvoke.invoke(request, invocation);
 	}
 
-	// 暂不支持map，数组封装 可通过滤器自定义 或自定义end_invoke
 	@Override
 	public ReportResponse invoke(HttpServletRequest request,
 			Invocation invocation) throws Exception {

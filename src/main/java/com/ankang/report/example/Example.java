@@ -59,7 +59,7 @@ public class Example {
 	@HTTP(value = "checkMap", desc = "例子")
 	public void checkMap(Map<String, Object> params){
 		
-		
+		System.out.println("进入方法");
 		for (Map.Entry<String, Object> param : params.entrySet()) {
 			System.out.println("key:"+param.getKey()+"  value:"+param.getValue());
 		}

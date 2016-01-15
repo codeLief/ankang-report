@@ -29,6 +29,8 @@ import com.ankang.report.main.ReportCabinet;
 import com.ankang.report.pool.AbstractReportAliasPool;
 import com.ankang.report.register.ReportRegister;
 import com.ankang.report.resolver.ReportResolver;
+import com.ankang.report.resolver.impl.JsonProtocolResolver;
+import com.ankang.report.resolver.impl.XmlProtocolResolver;
 import com.ankang.report.util.ReportUtil;
 
 @SuppressWarnings("all")
@@ -41,10 +43,10 @@ public final class ResolverRegister extends AbstractReportAliasPool implements R
 	
 	@Override
 	public boolean reginster() {
-		List<Class<?>> resolverAll = ReportUtil.getAllClassByInterface(ReportResolver.class);
-		for (Class<?> clazz : resolverAll) {
-			configer(clazz);
-		}
+		
+		configer(JsonProtocolResolver.class);
+		configer(XmlProtocolResolver.class);
+		
 		ReportCabinet.getReportApplicationContext().putPool(POOL_ALIAS_NAME, RESOLVERPOOL);
 		return Boolean.TRUE;
 	}
