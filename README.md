@@ -30,7 +30,7 @@ report 是一个开源的访问层框架，基于java平台，依赖于spring，
         		reginster(OrderHandler.class);
         	}
         }
-      d)启动项目，访问localhost:8080/项目名/report/test
+      d)启动项目，访问localhost:8080/项目名/report/console
 
 ### report可配置项
     a)自定义配置文件需采用指定资源地址：report/report-config.properties
@@ -45,6 +45,10 @@ report 是一个开源的访问层框架，基于java平台，依赖于spring，
     i)RESPONSE_CODE:自定义返回体请求状态码字段名
     j)RESPONSE_MESSAGE:自定义返回体请求消息字段名
     k)RESPONSE_RESULT:自定义返回体数据对象字段名
+    l)ENCODE:参数编码格式
+    m)ERROR400_PAGE_PATH:400时返回页面地址
+    n)ERROR500_PAGE_PATH:500时返回页面地址
+    o)ERROR401_PAGE_PATH:401时返回页面地址
     
 ### report注解解释
     a)@Alias:标注在需要被请求的类，value属性值为请求时使用的服务名，没有标注的report将不予以处理
