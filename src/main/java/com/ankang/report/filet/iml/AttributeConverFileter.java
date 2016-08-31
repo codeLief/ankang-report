@@ -14,7 +14,6 @@
  **/
 package com.ankang.report.filet.iml;
 
-import java.lang.reflect.Field;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,6 +26,7 @@ import com.ankang.report.filet.Fileter;
 import com.ankang.report.filet.Invocation;
 import com.ankang.report.filet.Invoker;
 import com.ankang.report.model.ReportResponse;
+import com.ankang.report.util.BeanAUtils;
 
 /**
  * 
@@ -41,9 +41,9 @@ public final class AttributeConverFileter implements Fileter {
 	public ReportResponse invoke(Invoker invoker, HttpServletRequest request,
 			Invocation invocation) throws Exception {
 
-		ReportResponse response = invoker.invoke(request, invocation);
+		final ReportResponse response = invoker.invoke(request, invocation);
 
-		Object IS_DEFINED_RESPONSE = ReportConfig
+		final Object IS_DEFINED_RESPONSE = ReportConfig
 				.getValue(ReportConfigItem.IS_DEFINED_RESPONSE.getConfigName());
 		if (null != IS_DEFINED_RESPONSE
 				&& Boolean.valueOf(IS_DEFINED_RESPONSE.toString())) {
@@ -60,30 +60,23 @@ public final class AttributeConverFileter implements Fileter {
 					.getValue(ReportConfigItem.RESPONSE_RESULT.getConfigName())) ? ""
 					: object.toString();
 			if (null != response.getResponse()) {
-				Field[] fields = response.getResponse().getClass()
-						.getDeclaredFields();
-				for (Field field : fields) {
-					field.setAccessible(true);
-					object = field.get(response.getResponse());
-					if (null != object) {
-						if (StringUtils.isNotEmpty(code)
-								&& code.equals(field.getName())) {
-							response.setCode(Integer.valueOf(object.toString()));
-							continue;
-						}
-						if (StringUtils.isNotEmpty(message)
-								&& message.equals(field.getName())) {
-							response.setMessage(field.get(
-									response.getResponse()).toString());
-							continue;
-						}
-						if (StringUtils.isNotEmpty(result)
-								&& result.equals(field.getName())) {
-							response.setResponse(field.get(response
-									.getResponse()));
-							continue;
-						}
-					}
+				
+				Object temp;
+				
+				if (StringUtils.isNotEmpty(code) 
+						&& (temp = BeanAUtils.getLayerProperty(response.getResponse(), code)) != null) {
+					
+					response.setCode((Integer)(temp));
+				}
+				if (StringUtils.isNotEmpty(message) 
+						&& (temp = BeanAUtils.getLayerProperty(response.getResponse(), message)) != null) {
+					
+					response.setMessage((String)temp);
+				}
+				if (StringUtils.isNotEmpty(result) 
+						&& (temp = BeanAUtils.getLayerProperty(response.getResponse(), result)) != null ) {
+					
+					response.setResponse(temp);
 				}
 			}
 		}

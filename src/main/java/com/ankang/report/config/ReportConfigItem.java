@@ -25,7 +25,13 @@ public enum ReportConfigItem {
 	
 	MONITOR_FILE_PATH("统计数据保存地址", "monitor_file_path", "没有找到report.cc"),
 	
+	ENCODE("编码格式", "encode","没有编码格式"),
+	
 	END_INVOKE("最终invoke对象", "end_invoke","没有最终执行对象"),
+	
+	ERROR400_PAGE_PATH("已成400时返回的页面", "error400_page_path","没有找到页面"),
+	ERROR500_PAGE_PATH("已成500时返回的页面", "error500_page_path","没有找到页面"),
+	ERROR401_PAGE_PATH("已成401时返回的页面", "error401_page_path","没有找到页面"),
 	
 	START_INVOKE("第一个invoke对象", "start_invoke","没有找到有效的链开始"),
 	

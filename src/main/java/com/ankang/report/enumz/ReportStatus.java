@@ -18,7 +18,11 @@ public final class ReportStatus {
 
 	public static final int SUCCESS_CODE = 200;
 	
-	public static final int FAIL_CODE = 500;
+	public static final int FAIL400_CODE = 400;
+	
+	public static final int FAIL401_CODE = 401;
+	
+	public static final int FAIL500_CODE = 500;
 	
 	public static final String SUCCESS_MSG = "执行成功";
 

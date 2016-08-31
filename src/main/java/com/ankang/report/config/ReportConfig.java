@@ -56,14 +56,14 @@ public final class ReportConfig {
 			.synchronizedMap(new HashMap<String, Object>());
 	private static final Map<Integer, Fileter> FILETERS = new TreeMap<Integer, Fileter>();
 	private static final Properties ps = new Properties();
-	private static boolean isLoad = false;
+	private static boolean ISLOAD = Boolean.FALSE;
 
 	public static void loadReportConfig(String classPath) {
 
-		if ((null == classPath || REPORT.equals(classPath)) && !isLoad) {
+		if ((null == classPath || REPORT.equals(classPath)) && !ISLOAD) {
 
 			classPath = REPORT;
-			isLoad = Boolean.TRUE;
+			ISLOAD = Boolean.TRUE;
 		}
 		logger.info("load properties " + classPath);
 

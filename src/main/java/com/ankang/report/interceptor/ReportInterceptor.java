@@ -39,6 +39,8 @@ public class ReportInterceptor extends HandlerInterceptorAdapter {
 				+ "</head>"
 				+ "<style type=\"text/css\"> body{background-color:#EEEEEE;} </style>"
 				+ "<body>" + "<h1 align=\"center\"> "+ errorMsg +" </h1>"
+				+ "<h3 align=\"center\"> "
+				+ "  <a href=\"https://github.com/codeLief/ankang-report\" target=\"view_window\"> 查看手册 </a> </h3>"
 				+ "</body>" + "</html>";
 
 		response.setContentType("text/html;charset=utf-8");

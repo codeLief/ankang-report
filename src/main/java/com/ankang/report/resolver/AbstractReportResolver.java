@@ -51,9 +51,9 @@ public abstract class AbstractReportResolver implements ReportResolver {
 			return;
 		}
 		
-		if(null != (params = sessionCache.get(request.getServletPath() + request.getQueryString() + key))){
+		/*if(null != (params = sessionCache.get(request.getServletPath() + request.getQueryString() + key))){
 			return;
-		}
+		}*/
 		
 		String parameter = getParameter(request, key);
 		
@@ -65,7 +65,7 @@ public abstract class AbstractReportResolver implements ReportResolver {
 			parameter = xs.read(parameter).toString();
 		}
 		params = JSONObject.parseObject(parameter);
-		sessionCache.put(request.getServletPath() + request.getQueryString() + key, params);
+//		sessionCache.put(request.getServletPath() + request.getQueryString() + key, params);
 		
 	}
 	
@@ -85,8 +85,11 @@ public abstract class AbstractReportResolver implements ReportResolver {
 				}
 				parameter = object.toString();
 			}
-			
-			return new String(parameter.getBytes("iso-8859-1"),"utf-8");
+			String encode = (String)ReportConfig.getValue(ReportConfigItem.ENCODE.getConfigName());
+			if(encode == null){
+				return parameter;
+			}
+			return new String(parameter.getBytes("utf-8"), encode);
 		} catch (UnsupportedEncodingException e) {
 			logger.error("request encode fial", e);
 			throw new ReportException("request encode fial");

@@ -55,7 +55,6 @@ public final class MonitorFileter implements Fileter {
 				num = 1;
 			} else {
 				num = 0;
-				response.setMessage(ReportStatus.FAIL_MSG);
 			}
 
 			sb.append(0 ^ num).append(TT).append(1 ^ num).append(TT);

@@ -17,6 +17,7 @@ package com.ankang.report.main.handler;
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.ankang.report.model.ReportResponse;
 import com.ankang.report.resolver.ReportResolver;
@@ -24,7 +25,7 @@ import com.ankang.report.resolver.ReportResolver;
 public abstract interface ReportHandler {
 	
 	ReportResponse handler(String serviceAlias, String methodAlias, ReportResolver resolver, 
-			HttpServletRequest request)
+			HttpServletRequest request, HttpServletResponse response)
 			throws Exception;
 	
 }

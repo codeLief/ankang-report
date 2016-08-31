@@ -71,6 +71,8 @@ public abstract class AbstractReportAliasPool {
 	protected final void mountMethod(Method method, ExecuteMethod em,
 			Class<? extends Annotation> annotation) {
 
+		RequestMethod[] methodType = {RequestMethod.GET, RequestMethod.POST};
+		
 		Map<String, Method> tempMethod = null;
 		Map<String, RequestMethod[]> tempType = null;
 		LinkedHashMap<String, Class<?>> paramsType = null;
@@ -89,7 +91,7 @@ public abstract class AbstractReportAliasPool {
 				if (null != http && !"".equals(http.value())) {
 					tempMethod.put(http.value(), method);
 					tempType.put(http.value(),
-							http.supportMethod());
+							http.supportMethod() == null || http.supportMethod().length == 0 ? methodType : http.supportMethod());
 					executeDesc.put(http.value(), 
 							http.desc());
 					mountPrams(paramsType, method);
@@ -97,13 +99,13 @@ public abstract class AbstractReportAliasPool {
 				}
 			} else if (anno instanceof RequestMapping) {
 				RequestMapping requestMapping = (RequestMapping) anno;
-				if (requestMapping != null && "".equals(requestMapping.value())) {
+				if (requestMapping != null && !"".equals(requestMapping.value())) {
 					String methodName = requestMapping.value()[0];
 					if (methodName.startsWith("/")) {
 						methodName = methodName.substring(1);
 					}
 					tempMethod.put(methodName, method);
-					tempType.put(methodName, requestMapping.method());
+					tempType.put(methodName, requestMapping.method() == null || requestMapping.method().length == 0 ? methodType : requestMapping.method());
 					executeDesc.put(methodName, requestMapping.name());
 					mountPrams(paramsType, method);
 					parameterType.put(methodName, paramsType);
