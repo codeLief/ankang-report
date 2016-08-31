@@ -62,7 +62,7 @@ public final class MethodRegister extends AbstractReportAliasPool implements
 		ExecuteMethod em = new ExecuteMethod(methodName, clazz);
 		for (Method method : methods) {
 			if (Modifier.isPublic(method.getModifiers()) 
-					&& method.getAnnotation(Override.class) == null
+//					&& method.getAnnotation(Override.class) == null
 					&& !Modifier.isNative(method.getModifiers())
 					&& !Modifier.isStatic(method.getModifiers())
 					&& !Modifier.isFinal(method.getModifiers())) {

@@ -18,6 +18,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ankang.report.annotation.ReportParam;
 import com.ankang.report.config.ReportConfig;
 import com.ankang.report.config.ReportConfigItem;
+import com.ankang.report.context.ReportApplicationContext;
 import com.ankang.report.exception.ReportException;
 import com.ankang.report.filet.Invocation;
 import com.ankang.report.filet.Invoker;
@@ -42,9 +44,9 @@ public class ReportRequestHandler extends ReportCabinet implements
 
 	@Override
 	public ReportResponse handler(String serviceAlias, String methodAlias,
-			ReportResolver resolver, HttpServletRequest request)
+			ReportResolver resolver, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-
+	
 		Invocation invocation = new Invocation();
 
 		Class<?> module = matchModule(serviceAlias);
@@ -63,6 +65,9 @@ public class ReportRequestHandler extends ReportCabinet implements
 		invocation.setResolver(resolver);
 		invocation.setParameterTypes(method.getParameterTypes());
 
+		((ReportApplicationContext)getReportApplicationContext()).setHttpServletRequest(request);
+		((ReportApplicationContext)getReportApplicationContext()).setHttpServletResponse(response);
+		
 		Invoker startInvoke = (Invoker) ReportConfig
 				.getValue(ReportConfigItem.START_INVOKE.getConfigName());
 

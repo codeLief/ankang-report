@@ -19,6 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -35,6 +38,10 @@ public final class ReportApplicationContext extends AbstractReportAliasPool impl
 	private static final Map<String, Map> ALIASPOOLS = Collections.synchronizedMap(new TreeMap<String, Map>());
 	
 	private static final Map<String, Object> BEANPOOLS = Collections.synchronizedMap(new HashMap<String, Object> ());
+	
+	private HttpServletResponse httpServletResponse;
+	
+	private HttpServletRequest httpServletRequest;
 	
 	private ReportBeanFactory beanFactory = null;
 	private ReportApplicationContext(ReportBeanFactory beanFactory){
@@ -118,5 +125,17 @@ public final class ReportApplicationContext extends AbstractReportAliasPool impl
 			return Class.forName(clazz.split("\\s+")[1].trim());
 		}
 		return Class.forName(clazz);
+	}
+	public HttpServletResponse getHttpServletResponse() {
+		return httpServletResponse;
+	}
+	public void setHttpServletResponse(HttpServletResponse httpServletResponse) {
+		this.httpServletResponse = httpServletResponse;
+	}
+	public HttpServletRequest getHttpServletRequest() {
+		return httpServletRequest;
+	}
+	public void setHttpServletRequest(HttpServletRequest httpServletRequest) {
+		this.httpServletRequest = httpServletRequest;
 	}
 }

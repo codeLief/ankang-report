@@ -24,11 +24,14 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -238,6 +241,7 @@ public final class MonitorRegister extends AbstractReportAliasPool implements
 			}
 			try {
 				pw = new PrintWriter(new FileWriter(this.monitorFile, true), true);
+				
 			} catch (IOException e) {
 				logger.error("PrintWriter initialization fail", e);
 			}
@@ -264,6 +268,7 @@ public final class MonitorRegister extends AbstractReportAliasPool implements
 			pw.write(text);
 			pw.flush();
 		}
+		pw.close();
 	}
 	
 	private void loadFile() {
@@ -388,5 +393,35 @@ public final class MonitorRegister extends AbstractReportAliasPool implements
 			result++;
 		}
 		return result;
+	}
+	
+	private class Lifecycle{
+		
+		private PrintWriter pw;
+		
+		private Timer timer = new Timer();
+		
+		public void setTimeTask(final PrintWriter pw, Long time){
+			
+			if(this.pw == null){
+				this.pw = pw;
+			}
+			timer.schedule(new TimerTask() {
+				
+				@Override
+				public void run() {
+					
+					logger.info("close PrintWriter");
+					pw.flush();
+					pw.close();
+				}
+			}, getTimeOut(time));
+			
+		}
+		private Date getTimeOut(Long time){
+			
+			return new Date(System.currentTimeMillis() + time);
+		}
+		
 	}
 }

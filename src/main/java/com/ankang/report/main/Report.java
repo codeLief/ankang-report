@@ -31,6 +31,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONArray;
+import com.ankang.report.config.ReportConfig;
+import com.ankang.report.config.ReportConfigItem;
 import com.ankang.report.enumz.ReportStatus;
 import com.ankang.report.exception.ReportException;
 import com.ankang.report.main.handler.impl.ReportRequestHandler;
@@ -62,37 +64,93 @@ public class Report extends ReportRequestHandler {
 			resolver = match(resolverAlias);
 
 			reportResponse = handler(serviceAlias, methodAlias, resolver,
-					request);
+					request, response);
 
 		} catch (IllegalAccessException e) {
 			logger.error("服务器繁忙", e);
-			reportResponse.setCode(ReportStatus.FAIL_CODE);
+			reportResponse.setCode(ReportStatus.FAIL500_CODE);
 			reportResponse.setMessage(e.getMessage() != null ? e.getMessage()
 					: "服务器繁忙");
 		} catch (IllegalArgumentException e) {
 			logger.error("请求参数异常", e);
-			reportResponse.setCode(ReportStatus.FAIL_CODE);
+			reportResponse.setCode(ReportStatus.FAIL500_CODE);
 			reportResponse.setMessage(e.getMessage() != null ? e.getMessage()
 					: "请求参数异常");
 		} catch (InvocationTargetException e) {
+			
+			Throwable targetException = null;
+			
+			String msg = "";
+			
+			if((targetException = e.getTargetException()) != null){
+				msg = targetException.getMessage();
+			}
 			logger.error("找不到目标方法", e);
-			reportResponse.setCode(ReportStatus.FAIL_CODE);
-			reportResponse.setMessage(e.getMessage() != null ? e.getMessage()
-					: "找不到目标方法");
+			reportResponse.setCode(ReportStatus.FAIL500_CODE);
+			reportResponse.setMessage(msg.trim() == null ? e.getMessage() != null ? e.getMessage()
+					: "找不到目标方法" : msg.trim());
+			
 		} catch (ReportException e) {
 			logger.error(e.getMessage(), e);
-			reportResponse.setCode(ReportStatus.FAIL_CODE);
+			reportResponse.setCode(e.getCode() == 0 ? ReportStatus.FAIL500_CODE
+					: e.getCode());
 			reportResponse.setMessage(e.getMessage());
 		} catch (Exception e) {
 			logger.error("请求失败", e);
-			reportResponse.setCode(ReportStatus.FAIL_CODE);
+			reportResponse.setCode(ReportStatus.FAIL500_CODE);
 			reportResponse.setMessage(e.getMessage() != null ? e.getMessage()
 					: "请求失败");
 		}
 
-		response.setCharacterEncoding("utf-8");
-		response.setContentType(resolver.getContextType());
-		response.getWriter().print(resolver.out(reportResponse));
+		switch (reportResponse.getCode()) {
+		case 400:
+			final Object path400 = ReportConfig
+					.getValue(ReportConfigItem.ERROR400_PAGE_PATH
+							.getConfigName());
+			if (path400 != null) {
+				
+				response.sendRedirect(getRedirectPath(request, path400.toString()));
+				break;
+			}
+		case 401:
+			final Object path401 = ReportConfig
+					.getValue(ReportConfigItem.ERROR401_PAGE_PATH
+							.getConfigName());
+			if (path401 != null) {
+				response.sendRedirect(getRedirectPath(request, path401.toString()));
+				break;
+			}
+		case 500:
+			final Object path500 = ReportConfig
+					.getValue(ReportConfigItem.ERROR500_PAGE_PATH
+							.getConfigName());
+			if (path500 != null) {
+				response.sendRedirect(getRedirectPath(request, path500.toString()));
+				break;
+			}
+		default:
+			response.setCharacterEncoding("utf-8");
+			response.setContentType(resolver.getContextType());
+			response.getWriter().print(resolver.out(reportResponse));
+			break;
+		}
+
+	}
+
+	@RequestMapping(value = "sendRedirect")
+	public void sendRedirect(HttpServletRequest request,
+			HttpServletResponse response, String path) throws Exception {
+
+		String requestType = request.getHeader("X-Requested-With");
+		if (requestType == null) {
+			
+			response.sendRedirect(request.getContextPath() + path);
+		} else {
+			response.setContentType("text/html;charset=utf-8");
+			response.getWriter().print("location.href='" + request.getContextPath() + path + "'");
+		}
+
+		response.sendRedirect(request.getContextPath() + path);
 	}
 
 	@RequestMapping(value = "console")
@@ -142,5 +200,14 @@ public class Report extends ReportRequestHandler {
 
 		response.setCharacterEncoding("utf-8");
 		response.getWriter().print(json);
+	}
+	private String getRedirectPath(HttpServletRequest request, String path){
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append(request.getContextPath())
+			.append("/report/sendRedirect?path=")
+			.append(path.contains("/")? path : "/" + path);
+		
+		return sb.toString();
 	}
 }

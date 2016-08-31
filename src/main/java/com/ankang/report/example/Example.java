@@ -41,7 +41,7 @@ public class Example {
 	     * @return 返回参数
 	 */
 	@HTTP(value = "check", desc = "例子")
-	public TestResponse check(@ReportParam(value = "testRequest") TestRequest testRequest, 
+	public void check(@ReportParam(value = "testRequest") TestRequest testRequest, 
 				@RequestParam(value = "key") Integer key, HttpServletRequest request){
 		
 		logger.info("key:"+ key);
@@ -54,7 +54,6 @@ public class Example {
 		response.setKey(key);
 		response.setName(testRequest.getName());
 		
-		return response;
 	}
 	@HTTP(value = "checkMap", desc = "例子")
 	public void checkMap(Map<String, Object> params){
