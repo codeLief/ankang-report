@@ -24,7 +24,7 @@ public class ReportInterceptor extends HandlerInterceptorAdapter {
 				.isTrue(ReportConfigItem.REPORT_ISLOAD.getConfigName())) {
 			return printErrorMsg(ReportConfigItem.REPORT_ISLOAD.getErrorMsg(), response);
 		} else if (!ReportConfig.isTrue(ReportConfigItem.REPORT_SWITCH
-				.getConfigName())) {
+				.getConfigName()) && request.getRequestURI().endsWith("/report/console")) {
 			return printErrorMsg(ReportConfigItem.REPORT_SWITCH.getErrorMsg(), response);
 		}
 		return Boolean.TRUE;

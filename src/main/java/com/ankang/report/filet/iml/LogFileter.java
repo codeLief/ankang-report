@@ -38,7 +38,7 @@ public final class LogFileter implements Fileter{
 	@Override
 	public ReportResponse invoke(Invoker invoker, HttpServletRequest request,
 			Invocation invocation) throws Exception {
-		
+
 		Map<String, String[]> parameterMap = request.getParameterMap();
 		Set<String> keySet = parameterMap.keySet();
 		String uri = request.getRequestURI();

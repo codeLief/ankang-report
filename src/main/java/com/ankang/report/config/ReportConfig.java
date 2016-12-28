@@ -35,6 +35,7 @@ import com.ankang.report.exception.ReportException;
 import com.ankang.report.filet.Fileter;
 import com.ankang.report.filet.Invocation;
 import com.ankang.report.filet.Invoker;
+import com.ankang.report.filet.iml.MonitorFileter;
 import com.ankang.report.main.ReportCabinet;
 import com.ankang.report.model.ReportResponse;
 
@@ -211,9 +212,14 @@ public final class ReportConfig {
 				|| StringUtils.isEmpty(endInvokeClass.toString())) {
 			throw new ReportException(ReportConfigItem.END_INVOKE.getErrorMsg());
 		}
-		List<Fileter> fileterz = new ArrayList<Fileter>();
-		for (Map.Entry<Integer, Fileter> fileter : FILETERS.entrySet()) {
-			fileterz.add(fileter.getValue());
+		
+		List<Fileter> fileterz = new ArrayList<>(FILETERS.values());
+		
+		//移除统计过滤器
+		if(!isTrue(ReportConfigItem.IS_MONITOR
+				.getConfigName())){
+			fileterz.remove(ReportCabinet
+					.getBean(com.ankang.report.filet.iml.MonitorFileter.class));
 		}
 		Invoker startInvoke = buildInvokerChain(
 				(Invoker) ReportCabinet.getBean(endInvokeClass.toString()),

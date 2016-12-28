@@ -18,10 +18,10 @@ package com.ankang.report.resolver.impl;
 import javax.servlet.http.HttpServletRequest;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ankang.report.annotation.Alias;
 import com.ankang.report.model.ReportResponse;
 import com.ankang.report.resolver.AbstractReportResolver;
+import com.ankang.report.util.GsonUtil;
 
 @Alias(alias="json")
 public class JsonProtocolResolver extends AbstractReportResolver{
@@ -33,14 +33,15 @@ public class JsonProtocolResolver extends AbstractReportResolver{
 
 	@Override
 	public <OUT> String out(OUT output) {
-		return JSON.toJSONString(output,
+		/*return JSON.toJSONString(output,
 				SerializerFeature.PrettyFormat,
 				SerializerFeature.DisableCircularReferenceDetect,
 				SerializerFeature.WriteMapNullValue,
 				SerializerFeature.WriteNullNumberAsZero,
 				SerializerFeature.WriteNullListAsEmpty,
 				SerializerFeature.WriteNullBooleanAsFalse, 
-				SerializerFeature.WriteNullStringAsEmpty );
+				SerializerFeature.WriteNullStringAsEmpty );*/
+		return GsonUtil.toJson(output);
 	}
 
 	@Override

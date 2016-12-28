@@ -32,7 +32,6 @@ import com.ankang.report.filet.Invocation;
 import com.ankang.report.filet.Invoker;
 import com.ankang.report.main.ReportCabinet;
 import com.ankang.report.main.handler.ReportHandler;
-import com.ankang.report.model.ReportRequest;
 import com.ankang.report.model.ReportResponse;
 import com.ankang.report.resolver.ReportResolver;
 
@@ -78,14 +77,22 @@ public class ReportRequestHandler extends ReportCabinet implements
 	public ReportResponse invoke(HttpServletRequest request,
 			Invocation invocation) throws Exception {
 
+		boolean isDe = Boolean.FALSE;
+		
 		Class<?>[] parameterTypes = invocation.getParameterTypes();
 		Object[] invokerParam = invocation.getArguments();
 		if (parameterTypes.length > 0) {
 			
-			invocation.getResolver().resolverParamter(request);
-
-			for (int i = 0; i < parameterTypes.length && invokerParam[i] == null; i++) {
-
+			for (int i = 0; i < parameterTypes.length; i++) {
+				
+				if(invokerParam[i] != null) continue;
+				
+				if(!isDe){
+					
+					invocation.getResolver().resolverParamter(request);
+					isDe = Boolean.TRUE;
+				}
+				
 				Annotation[][] parameters = invocation.getMethod()
 						.getParameterAnnotations();
 				Annotation annotation = null;
@@ -115,7 +122,18 @@ public class ReportRequestHandler extends ReportCabinet implements
 				if (null == parameterTypes[i]) {
 					throw new IllegalArgumentException("获取参数失败，没有目标参数类型");
 				}
-				if ((ReportRequest.class
+				if (null == para) {
+
+					throw new IllegalArgumentException("获取参数失败，未找到有效的参数名");
+				}
+				invokerParam[i] = invocation.getResolver().getValue(
+						para.toString(), parameterTypes[i]);
+				
+/*				if(invokerParam[i] == null)
+					invokerParam[i] = invocation.getResolver().in(null,
+							parameterTypes[i]);*/
+				
+				/*if ((ReportRequest.class
 						.isAssignableFrom(parameterTypes[i]))
 						|| (!parameterTypes[i].isPrimitive()
 								&& !parameterTypes[i].toString().matches(
@@ -132,13 +150,18 @@ public class ReportRequestHandler extends ReportCabinet implements
 
 					invokerParam[i] = invocation.getResolver().getValue(
 							para.toString(), parameterTypes[i]);
-				}
+				}*/
 			}
 		}
 
 		Object result = invocation.getMethod().invoke(
 				getBean(invocation.getModul()), invocation.getArguments());
 
+		if(result instanceof ReportResponse){
+			
+			return (ReportResponse) result;
+		}
+		
 		ReportResponse response = new ReportResponse();
 		response.setResponse(result);
 

@@ -16,7 +16,7 @@ package com.ankang.report.config;
 
 public enum ReportConfigItem {
 	
-	REPORT_SWITCH("report开关,true/false", "report_switch", "report为关闭状态"),
+	REPORT_SWITCH("report开关,true/false", "report_switch", "report console为关闭状态"),
 	REPORT_ISLOAD("report配置文件是否加载 true/false", "report_isload", "配置文件未加载，请阅读report使用手册"),
 	FILETER("fileter,class", "fileter", "过滤器"),
 	
@@ -25,9 +25,13 @@ public enum ReportConfigItem {
 	
 	MONITOR_FILE_PATH("统计数据保存地址", "monitor_file_path", "没有找到report.cc"),
 	
-	ENCODE("编码格式", "encode","没有编码格式"),
+	SOURCE_ENCODE("编码源格式", "source_encode","没有编码格式"),
+	
+	TARGET_ENCODE("编码目标格式", "target_encode","没有编码格式"),
 	
 	END_INVOKE("最终invoke对象", "end_invoke","没有最终执行对象"),
+	
+	IS_MONITOR("是否统计", "is_monitor","是否统计执行情况"),
 	
 	ERROR400_PAGE_PATH("已成400时返回的页面", "error400_page_path","没有找到页面"),
 	ERROR500_PAGE_PATH("已成500时返回的页面", "error500_page_path","没有找到页面"),

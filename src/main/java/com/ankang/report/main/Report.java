@@ -31,8 +31,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONArray;
-import com.ankang.report.config.ReportConfig;
-import com.ankang.report.config.ReportConfigItem;
 import com.ankang.report.enumz.ReportStatus;
 import com.ankang.report.exception.ReportException;
 import com.ankang.report.main.handler.impl.ReportRequestHandler;
@@ -102,7 +100,7 @@ public class Report extends ReportRequestHandler {
 					: "请求失败");
 		}
 
-		switch (reportResponse.getCode()) {
+		/*switch (reportResponse.getCode()) {
 		case 400:
 			final Object path400 = ReportConfig
 					.getValue(ReportConfigItem.ERROR400_PAGE_PATH
@@ -133,11 +131,13 @@ public class Report extends ReportRequestHandler {
 			response.setContentType(resolver.getContextType());
 			response.getWriter().print(resolver.out(reportResponse));
 			break;
-		}
-
+		}*/
+		response.setCharacterEncoding("utf-8");
+		response.setContentType(resolver.getContextType());
+		response.getWriter().print(resolver.out(reportResponse));
 	}
 
-	@RequestMapping(value = "sendRedirect")
+	/*@RequestMapping(value = "sendRedirect")
 	public void sendRedirect(HttpServletRequest request,
 			HttpServletResponse response, String path) throws Exception {
 
@@ -151,7 +151,7 @@ public class Report extends ReportRequestHandler {
 		}
 
 		response.sendRedirect(request.getContextPath() + path);
-	}
+	}*/
 
 	@RequestMapping(value = "console")
 	public ModelAndView test(HttpServletResponse response) throws Exception {
@@ -201,7 +201,7 @@ public class Report extends ReportRequestHandler {
 		response.setCharacterEncoding("utf-8");
 		response.getWriter().print(json);
 	}
-	private String getRedirectPath(HttpServletRequest request, String path){
+/*	private String getRedirectPath(HttpServletRequest request, String path){
 		
 		StringBuffer sb = new StringBuffer();
 		sb.append(request.getContextPath())
@@ -209,5 +209,5 @@ public class Report extends ReportRequestHandler {
 			.append(path.contains("/")? path : "/" + path);
 		
 		return sb.toString();
-	}
+	}*/
 }

@@ -16,15 +16,13 @@ package com.ankang.report.resolver;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-
 import net.sf.json.xml.XMLSerializer;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ankang.report.config.ReportConfig;
@@ -43,17 +41,14 @@ public abstract class AbstractReportResolver implements ReportResolver {
 	
 	protected static String XML_DUFALUE_BODY = "root";
 	
-	private static final Map<String, JSONObject> sessionCache = new WeakHashMap<String, JSONObject>(16, 1);
+	protected static String SOURCE_ENCODE;
+	protected static String TARGET_ENCODE;
 	
 	protected void resolverParamter(HttpServletRequest request, String key){
 	
 		if(null == request){
 			return;
 		}
-		
-		/*if(null != (params = sessionCache.get(request.getServletPath() + request.getQueryString() + key))){
-			return;
-		}*/
 		
 		String parameter = getParameter(request, key);
 		
@@ -65,8 +60,6 @@ public abstract class AbstractReportResolver implements ReportResolver {
 			parameter = xs.read(parameter).toString();
 		}
 		params = JSONObject.parseObject(parameter);
-//		sessionCache.put(request.getServletPath() + request.getQueryString() + key, params);
-		
 	}
 	
 	
@@ -85,11 +78,10 @@ public abstract class AbstractReportResolver implements ReportResolver {
 				}
 				parameter = object.toString();
 			}
-			String encode = (String)ReportConfig.getValue(ReportConfigItem.ENCODE.getConfigName());
-			if(encode == null){
-				return parameter;
+			if(SOURCE_ENCODE != null && TARGET_ENCODE != null){
+				return new String(parameter.getBytes(SOURCE_ENCODE), TARGET_ENCODE);
 			}
-			return new String(parameter.getBytes("utf-8"), encode);
+			return parameter;
 		} catch (UnsupportedEncodingException e) {
 			logger.error("request encode fial", e);
 			throw new ReportException("request encode fial");
@@ -106,10 +98,14 @@ public abstract class AbstractReportResolver implements ReportResolver {
 		
 		resolverParamter(request);
 		
-		return GsonUtil.jsonToMap(params.toJSONString());
+		return GsonUtil.jsonToMapEx(params.toJSONString());
 		
 	}
 	static{
+		
+		SOURCE_ENCODE = (String)ReportConfig.getValue(ReportConfigItem.SOURCE_ENCODE.getConfigName());
+		
+		TARGET_ENCODE = (String)ReportConfig.getValue(ReportConfigItem.TARGET_ENCODE.getConfigName());
 		
 		String jsonBody = (String)ReportConfig.getValue(ReportConfigItem.JSON_BOAY.getConfigName());
 		
