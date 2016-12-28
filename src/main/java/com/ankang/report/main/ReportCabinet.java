@@ -46,7 +46,7 @@ public class ReportCabinet{
 	}
 	public static ReportResolver match(String resolverAlias){
 		if(StringUtils.isEmpty(resolverAlias)){
-			throw new ReportException("解析类型不能为空");
+			throw new ReportException(String.format("解析类型不能为空.[%s]", resolverAlias));
 		}
 		Map<String, Object> resolvePool = RA.getPool(ResolverRegister.POOL_ALIAS_NAME);
 		return (ReportResolver)RA.getBean(resolvePool.get(resolverAlias).toString());
@@ -67,7 +67,7 @@ public class ReportCabinet{
 		}
 		ExecuteMethod em = matchExecuteMethod(serviceAlias);
 		if(null == em){
-			throw new ReportException("未找到有效的模块名称");
+			throw new ReportException(String.format("未找到有效的模块名称.[%s]", serviceAlias));
 		}
 		return em.getClazz();
 	}
@@ -80,7 +80,7 @@ public class ReportCabinet{
 				return map.get(methodAlias);
 			}
 		}
-		return "";
+		return StringUtils.EMPTY;
 	}
 	public static ExecuteMethod matchExecuteMethod(String serviceAlias){
 		Map servicePool = RA.getPool(MethodRegister.METHOD_ALIAS_NAME);

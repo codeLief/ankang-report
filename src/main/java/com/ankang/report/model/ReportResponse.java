@@ -15,6 +15,8 @@
 package com.ankang.report.model;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.ankang.report.enumz.ReportStatus;
 
@@ -35,6 +37,8 @@ public class ReportResponse implements Serializable{
 	
 	private Object response;
 
+	private Map<String, Object> data = new HashMap<String, Object>();
+	
 	public int getCode() {
 		return code;
 	}
@@ -57,5 +61,10 @@ public class ReportResponse implements Serializable{
 
 	public void setResponse(Object response) {
 		this.response = response;
+	}
+	
+	public void putData(String key, Object value){
+		
+		data.put(key, value);
 	}
 }
