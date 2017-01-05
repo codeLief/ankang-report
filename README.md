@@ -1,6 +1,6 @@
 
 # ankang-report
-report 是一个开源的访问层框架，基于java平台，依赖于spring，以Mozilla Public License 2.0 协议发布。可用于接口的调试及性能的展示，以及访问控制层的使用，简化控制层的繁琐代码，简化spring mvc的配置，剥离的请求前的一系列操作，耦合性低，report是请求通道采用责任链模式设计，轻便可控、扩展性强。report的测试统计等功能为你的每一个接口展示一份完美的报告。
+report 是一个开源的访问层框架，基于java平台，依赖于spring，以Mozilla Public License 2.0 协议发布。可用于接口的调试及性能的展示，以及访问控制层的使用，简化控制层的繁琐代码，简化spring mvc的配置，剥离的请求前的一系列操作，耦合性低，REST风格的接口使用简单，report采用责任链模式设计，轻便可控、扩展性强。report的测试统计等功能为你的每一个接口展示一份完美的报告。
  
 
 ### **report的关键特性：**
@@ -46,9 +46,6 @@ report 是一个开源的访问层框架，基于java平台，依赖于spring，
     j)RESPONSE_MESSAGE:自定义返回体请求消息字段名
     k)RESPONSE_RESULT:自定义返回体数据对象字段名
     l)ENCODE:参数编码格式
-    m)ERROR400_PAGE_PATH:400时返回页面地址
-    n)ERROR500_PAGE_PATH:500时返回页面地址
-    o)ERROR401_PAGE_PATH:401时返回页面地址
     
 ### report注解解释
     a)@Alias:标注在需要被请求的类，value属性值为请求时使用的服务名，没有标注的report将不予以处理
